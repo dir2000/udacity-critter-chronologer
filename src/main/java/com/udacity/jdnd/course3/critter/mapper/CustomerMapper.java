@@ -23,9 +23,7 @@ public class CustomerMapper {
         Customer customer = new Customer();
         BeanUtils.copyProperties(dto, customer);
         if (dto.getPetIds() != null) {
-            List<Pet> pets = dto
-                    .getPetIds()
-                    .stream()
+            List<Pet> pets = dto.getPetIds().stream()
                     .map(id -> petRepository.findById(id).orElseThrow(
                             () -> new PetNotFoundException("Pet not found by id " + id)))
                     .collect(Collectors.toList());
@@ -38,11 +36,8 @@ public class CustomerMapper {
         CustomerDTO dto = new CustomerDTO();
         BeanUtils.copyProperties(customer, dto);
         if (customer.getPets() != null) {
-            List<Long> petIds = customer
-                    .getPets()
-                    .stream()
-                    .map(pet -> pet.getId())
-                    .collect(Collectors.toList());
+            List<Long> petIds = customer.getPets().stream().map(pet -> pet.getId()).collect(Collectors.toList());
+            dto.setPetIds(petIds);
         }
         return dto;
     }
