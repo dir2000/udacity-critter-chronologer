@@ -1,47 +1,17 @@
 package com.udacity.jdnd.course3.critter.entity;
 
-import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
+import com.udacity.jdnd.course3.critter.type.EmployeeSkill;
 
 import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.util.Set;
 
 @Entity
-public class Employee {
-    @Id
-    @GeneratedValue
-    private long id;
-    private String name;
-
-    @ElementCollection(targetClass = EmployeeSkill.class)
-    @CollectionTable(name = "employee_skill",
-            joinColumns = @JoinColumn(name = "employee_id"))
-    @Enumerated(EnumType.STRING)
-    @Column(name = "skill_name")
+public class Employee extends User{
+    @ElementCollection
     private Set<EmployeeSkill> skills;
-
-    @ElementCollection(targetClass = DayOfWeek.class)
-    @CollectionTable(name = "employee_day_of_week",
-            joinColumns = @JoinColumn(name = "employee_id"))
-    @Enumerated(EnumType.STRING)
-    @Column(name = "day_of_week_name")
+    @ElementCollection
     private Set<DayOfWeek> daysAvailable;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public Set<EmployeeSkill> getSkills() {
         return skills;

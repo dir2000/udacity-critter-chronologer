@@ -1,6 +1,6 @@
 package com.udacity.jdnd.course3.critter.entity;
 
-import com.udacity.jdnd.course3.critter.pet.PetType;
+import com.udacity.jdnd.course3.critter.type.PetType;
 
 import javax.persistence.*;
 import java.time.LocalDate;
