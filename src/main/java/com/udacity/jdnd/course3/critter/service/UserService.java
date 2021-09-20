@@ -31,8 +31,12 @@ public class UserService {
     public Employee saveEmployee(Employee employee) {
         return employeeRepository.save(employee);
     }
+
     public Employee getEmployee(long employeeId) {
         return employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new EmployeeNotFoundException("Employee not found by id" + employeeId));
     }
+    public Customer getOwnerByPet(long petId) {
+        return customerRepository.findByPetsId(petId);
+    };
 }
