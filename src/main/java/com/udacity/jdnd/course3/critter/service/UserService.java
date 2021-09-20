@@ -2,7 +2,7 @@ package com.udacity.jdnd.course3.critter.service;
 
 import com.udacity.jdnd.course3.critter.entity.Customer;
 import com.udacity.jdnd.course3.critter.entity.Employee;
-import com.udacity.jdnd.course3.critter.exception.EmployeeFoundException;
+import com.udacity.jdnd.course3.critter.exception.EmployeeNotFoundException;
 import com.udacity.jdnd.course3.critter.repository.CustomerRepository;
 import com.udacity.jdnd.course3.critter.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
@@ -33,6 +33,6 @@ public class UserService {
     }
     public Employee getEmployee(long employeeId) {
         return employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new EmployeeFoundException("Employee not found by id" + employeeId));
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found by id" + employeeId));
     }
 }
