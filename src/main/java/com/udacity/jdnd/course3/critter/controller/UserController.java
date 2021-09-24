@@ -68,12 +68,13 @@ public class UserController {
 
     @PutMapping("/employee/{employeeId}")
     public void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId) {
-        throw new UnsupportedOperationException();
+        userService.setAvailability(daysAvailable, employeeId);
     }
 
     @GetMapping("/employee/availability")
     public List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO) {
-        throw new UnsupportedOperationException();
+        List <Employee> employees = userService.findEmployeesForService(employeeDTO.getDate(), employeeDTO.getSkills());
+        return employees.stream().map(employee -> employeeMapper.tpDTO(employee)).collect(Collectors.toList());
     }
 
 }

@@ -5,9 +5,14 @@ import com.udacity.jdnd.course3.critter.entity.Employee;
 import com.udacity.jdnd.course3.critter.exception.EmployeeNotFoundException;
 import com.udacity.jdnd.course3.critter.repository.CustomerRepository;
 import com.udacity.jdnd.course3.critter.repository.EmployeeRepository;
+import com.udacity.jdnd.course3.critter.type.EmployeeSkill;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -27,6 +32,10 @@ public class UserService {
         return customerRepository.findAll();
     }
 
+    public Customer getOwnerByPet(long petId) {
+        return customerRepository.findByPetsId(petId);
+    }
+
 
     public Employee saveEmployee(Employee employee) {
         return employeeRepository.save(employee);
@@ -36,7 +45,18 @@ public class UserService {
         return employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new EmployeeNotFoundException("Employee not found by id" + employeeId));
     }
-    public Customer getOwnerByPet(long petId) {
-        return customerRepository.findByPetsId(petId);
-    };
+
+    public void setAvailability(Set<DayOfWeek> daysAvailable, long employeeId) {
+        Employee employee = getEmployee(employeeId);
+        employee.setDaysAvailable(daysAvailable);
+    }
+
+    public List<Employee> findEmployeesForService(LocalDate date, Set<EmployeeSkill> skills) {
+        DayOfWeek day = date.getDayOfWeek();
+        List<Employee> employees = employeeRepository.findAllByDaysAvailableAndSkillsIn(day, skills);
+        employees = employees.stream().filter(employee ->
+                employee.getSkills().containsAll(skills)
+        ).collect(Collectors.toList());
+        return employees;
+    }
 }
