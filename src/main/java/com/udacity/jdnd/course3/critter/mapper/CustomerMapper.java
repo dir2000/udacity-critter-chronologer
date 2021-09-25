@@ -3,8 +3,7 @@ package com.udacity.jdnd.course3.critter.mapper;
 import com.udacity.jdnd.course3.critter.dto.CustomerDTO;
 import com.udacity.jdnd.course3.critter.entity.Customer;
 import com.udacity.jdnd.course3.critter.entity.Pet;
-import com.udacity.jdnd.course3.critter.exception.PetNotFoundException;
-import com.udacity.jdnd.course3.critter.repository.PetRepository;
+import com.udacity.jdnd.course3.critter.service.PetService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -13,19 +12,17 @@ import java.util.stream.Collectors;
 
 @Component
 public class CustomerMapper {
-    private PetRepository petRepository;
+    private PetService petService;
 
-    public CustomerMapper(PetRepository petRepository) {
-        this.petRepository = petRepository;
+    public CustomerMapper(PetService petService) {
+        this.petService = petService;
     }
 
     public Customer toCustomer(CustomerDTO dto) {
         Customer customer = new Customer();
         BeanUtils.copyProperties(dto, customer);
         if (dto.getPetIds() != null) {
-            List<Pet> pets = dto.getPetIds().stream()
-                    .map(id -> petRepository.findById(id).orElseThrow(
-                            () -> new PetNotFoundException("Pet not found by id " + id)))
+            List<Pet> pets = dto.getPetIds().stream().map(id -> petService.getPet(id))
                     .collect(Collectors.toList());
             customer.setPets(pets);
         }

@@ -12,9 +12,9 @@ public class Schedule {
     @Id
     @GeneratedValue
     private long id;
-    @OneToMany
+    @ManyToMany
     private List<Employee> employees;
-    @OneToMany
+    @ManyToMany
     private List<Pet> pets;
     private LocalDate date;
     @ElementCollection
