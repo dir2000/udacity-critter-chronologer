@@ -60,7 +60,7 @@ public class UserController {
         return employeeMapper.tpDTO(savedEmployee);
     }
 
-    @PostMapping("/employee/{employeeId}")
+    @GetMapping("/employee/{employeeId}")
     public EmployeeDTO getEmployee(@PathVariable long employeeId) {
         Employee employee = userService.getEmployee(employeeId);
         return employeeMapper.tpDTO(employee);

@@ -55,6 +55,7 @@ public class UserService {
     public void setAvailability(Set<DayOfWeek> daysAvailable, long employeeId) {
         Employee employee = getEmployee(employeeId);
         employee.setDaysAvailable(daysAvailable);
+        employeeRepository.save(employee);
     }
 
     public List<Employee> findEmployeesForService(LocalDate date, Set<EmployeeSkill> skills) {
