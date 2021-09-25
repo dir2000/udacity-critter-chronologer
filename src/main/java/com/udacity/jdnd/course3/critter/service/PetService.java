@@ -7,6 +7,7 @@ import com.udacity.jdnd.course3.critter.repository.CustomerRepository;
 import com.udacity.jdnd.course3.critter.repository.PetRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,18 +21,21 @@ public class PetService {
         this.petRepository = petRepository;
     }
 
+    @Transactional
     public Pet savePet(Pet pet) {
         Pet savedPet = petRepository.save(pet);
         Customer customer = savedPet.getCustomer();
-        List<Pet> pets = customer.getPets();
-        if (pets != null) {
-            pets = new ArrayList<>();
+        if (customer != null) {
+            List<Pet> pets = customer.getPets();
+            if (pets == null) {
+                pets = new ArrayList<>();
+            }
+            if (!pets.contains(pet)) {
+                pets.add(pet);
+            }
+            customer.setPets(pets);
+            customerRepository.save(customer);
         }
-        if (!pets.contains(pet)) {
-            pets.add(pet);
-        }
-        customer.setPets(pets);
-        customerRepository.save(customer);
         return savedPet;
 
     }
@@ -41,7 +45,7 @@ public class PetService {
                 .orElseThrow(() -> new PetNotFoundException("Pet not found by id" + petId));
     }
 
-    public List<Pet> getPets() {
+    public List<Pet> getAllPets() {
         return petRepository.findAll();
     }
 

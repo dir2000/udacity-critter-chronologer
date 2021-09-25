@@ -31,7 +31,7 @@ public class UserService {
 
     public Customer getCustomer(long customerId) {
         return customerRepository.findById(customerId)
-                .orElseThrow(() -> new CustomerNotFoundException("Customer not found by id" + customerId));
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found by id " + customerId));
     }
 
     public List<Customer> getAllCustomers() {

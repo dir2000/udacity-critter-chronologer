@@ -38,7 +38,7 @@ public class PetController {
 
     @GetMapping
     public List<PetDTO> getPets(){
-        return petService.getPets().stream().map(pet -> petMapper.tpDTO(pet)).collect(Collectors.toList());
+        return petService.getAllPets().stream().map(pet -> petMapper.tpDTO(pet)).collect(Collectors.toList());
     }
 
     @GetMapping("/owner/{ownerId}")
