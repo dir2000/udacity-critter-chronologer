@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class PetService {
     private CustomerRepository customerRepository;
     private PetRepository petRepository;
@@ -21,7 +22,6 @@ public class PetService {
         this.petRepository = petRepository;
     }
 
-    @Transactional
     public Pet savePet(Pet pet) {
         Pet savedPet = petRepository.save(pet);
         Customer customer = savedPet.getCustomer();
